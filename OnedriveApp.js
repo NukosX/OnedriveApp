@@ -525,6 +525,23 @@ function getCode(e) {
         parentInf: result.parentReference.path
       };
     };
+      
+    OnedriveApp.prototype.createFile = function(blob_,path_) {
+      var headers, method, payload, result, url;
+      url = path_ ? this.baseurl + "/drive/root:" + path_ + ":/children" : this.baseurl + "/drive/root/children";
+      headers = {
+        "Authorization": "Bearer " + this.access_token,
+        "Content-Type": "application/json"
+      };
+      method = "POST";
+      payload = blob_;
+      result = fetch.call(this, url, method, payload, headers, null);
+      return {
+        filename: result.name,
+        link: result.@microsoft.graph.downloadUrl,
+        parentInf: result.parentReference.path
+      };
+    };
 
     OnedriveApp.prototype.deleteItemByName = function(path_) {
       var headers, method, result, url;
