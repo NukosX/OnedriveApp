@@ -538,10 +538,28 @@ function getCode(e) {
       result = fetch.call(this, url, method, payload, headers, null);
       return {
         filename: result.name,
-        link: result.@microsoft.graph.downloadUrl,
+        id: result.id,
         parentInf: result.parentReference.path
       };
     };
+      
+    OnedriveApp.prototype.createLink = function(id_,path_) {
+      var headers, method, payload, result, url;
+      url = this.baseurl +"/drive/root:" + path_ + ":/items/" + id_ + "createLink" : this.baseurl + "/me/drive/items/" + id_ + "createLink"
+      headers = {
+        "Authorization": "Bearer " + this.access_token,
+        "Content-Type": "application/json"
+      };
+      method = "POST";
+      payload = {
+        "type": "view",
+        "scope": "anonymous"
+      }
+      result = fetch.call(this, url, method, payload, headers, null);
+      return {
+        link: result.link.webUrl
+      }
+    }
 
     OnedriveApp.prototype.deleteItemByName = function(path_) {
       var headers, method, result, url;
